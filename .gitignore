@@ -4,3 +4,6 @@
 ### JetBrains and VSCode ###
 .idea
 .vscode
+
+### .venv ###
+.venv
