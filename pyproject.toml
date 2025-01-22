@@ -1,0 +1,21 @@
+[project]
+name = "machine-learning-uml"
+version = "0.0.0"
+description = "Machine Learning coursework @ UMass Lowell"
+authors = [
+    { name = "James Chen", email = "jameschan312.cn@gmail.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy (>=2.2.2,<3.0.0)",
+    "scipy (>=1.15.1,<2.0.0)",
+    "matplotlib (>=3.10.0,<4.0.0)",
+    "jupyterlab (>=4.3.4,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
