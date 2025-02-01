@@ -1,0 +1,104 @@
+\section{Basic Concept}\label{sec:basic-concept}
+
+\textbf{Machine learning (ML)} is a subset of \textbf{Artificial Intelligence (AI)} that enables computers to learn from data and improve their performance over time without being explicitly programmed.
+That primary goal is to develop models that can generalize well to unseen data, making accurate predictions or decisions.
+Types of machine learning consist of:
+
+\begin{itemize}
+    \item { \textbf{Supervised Learning}: The model learns from labeled data. }
+    \item { \textbf{Unsupervised Learning}: The model finds patterns in unlabeled data. }
+    \item { \textbf{Semi-supervised Learning}: Uses a small amount of labeled data with a large amount of unlabeled data. }
+    \item { \textbf{Reinforcement Learning}: The model learns by interacting with an environment and receiving rewards or penalties. }
+\end{itemize}
+
+Machine learning problems are categorized based on the type of output they generate and the nature of the task:
+
+\begin{itemize}
+    \item {
+        \textbf{Classification}: Assign data points to predefined categories (labels). The output is discrete and categorical.
+        \begin{itemize}
+            \item { Spam detection }
+            \item { Image classification }
+            \item { Disease diagnosis }
+        \end{itemize}
+    }
+    \item {
+        \textbf{Regression}: Predict continuous values based on input data.
+        \begin{itemize}
+            \item { Predicting house prices. }
+            \item { Estimating stock prices. }
+            \item { Forecasting temperature. }
+        \end{itemize}
+    }
+    \item {
+        \textbf{Clustering}: Group similar data points together without predefined labels.
+        \begin{itemize}
+            \item { Customer segmentation (grouping customers by shopping behavior). }
+            \item { Document clustering (organizing articles by topics). }
+            \item { Image segmentation. }
+        \end{itemize}
+    }
+    \item {
+        \textbf{Density Estimation}: Estimate the probability density function of a dataset. The output is a continuous function describing the data distribution.
+        \begin{itemize}
+            \item { Anomaly detection (fraud detection, network security). }
+            \item { Data generation. }
+            \item { Feature engineering (transforming features based on density). }
+        \end{itemize}
+    }
+\end{itemize}
+
+\subsection{Gaussian Distribution}\label{subsec:gaussian-distribution}
+
+The \textbf{Gaussian distribution} (also known as the \textbf{normal distribution}) for a scalar random variable $x$ is defined as:
+
+\[
+    \mathcal{N}(x \mid \mu, \sigma^2)
+    = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left\{-\frac{(x - \mu)^2}{2\sigma^2}\right\}
+\]
+
+where $\mu$ is the mean and $\sigma^2$ is the variance.
+
+For a $D$-dimensional random vector $\mathbf{x}$, the \textbf{multivariate Gaussian distribution} is:
+
+\[
+    \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma})
+    = \frac{1}{(2\pi)^{D/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left\{-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x} - \boldsymbol{\mu})\right\}
+\]
+
+where $\boldsymbol{\mu}$ is the mean vector and $\boldsymbol{\Sigma}$ is the covariance matrix.
+
+Given independent and identically distributed observations $\{x_n\}_{n=1}^N$, the likelihood function is:
+
+\[
+    p(\mathbf{x} \mid \mu, \sigma^2) = \prod_{n = 1}^{N}\mathcal{N}(x_n \mid \mu, \sigma^2)
+\]
+
+Taking the natural logarithm of the likelihood function yields:
+
+\[
+    \ln{p(\mathbf{x} \mid \mu, \sigma)} = -\frac{1}{\sigma^2}\sum_{n=1}^{N}(x_n - \mu)^2 - \frac{N}{2}\ln \sigma^2 - \frac{N}{2}(2 \pi)
+\]
+
+To find the maximum likelihood estimate of $\mu$, we take the derivative with respect to $\mu$ and set it equal to zero:
+
+\[
+    \frac{\partial}{\partial \mu} \ln p(\mathbf{x} \mid \mu, \sigma)
+    = \frac{2}{\sigma^2}\sum_{n=1}^{N}{(x_n - \mu)}
+\]
+
+Solving for $\mu$:
+
+\[
+    \mu = \frac{1}{N}\sum_{n=1}^{N}x_n
+\]
+
+Thus, the maximum likelihood estimate for $\mu$ is the sample mean.
+Likewise, the maximum likelihood estimate for $\sigma^2$ is the sample variance.
+In conclusion:
+
+\[
+    \mu_{ML} = \frac{1}{N}\sum_{n=1}^{N}{x_n}
+    \quad
+    \sigma^2_{ML} =  \frac{1}{N}\sum_{n=1}^{N}{ (x_n - \mu_{ML})^2 }
+\]

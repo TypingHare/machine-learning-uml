@@ -1,0 +1,10 @@
+{
+  "sourceDir": "src",
+  "buildDir": "build",
+  "defaultFile": "machine_learning_note.tex",
+  "latexmkCommand": "latexmk",
+  "latexmkOptions": "-pdf -cd",
+  "watchInterval": 1000,
+  "previewer": "Safari",
+  "releaseDir": "release"
+}

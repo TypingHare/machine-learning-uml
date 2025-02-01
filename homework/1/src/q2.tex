@@ -1,0 +1,66 @@
+2. Let $P(B = i)$ represent the probability of selecting box $i$, where $i \in \{ r, b, g\}$.
+Let $P(F = j)$ represent the probability of selecting fruit $j$, where $j \in \{ a, o, l \}$
+Let us set up the probability table that covers all the data:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | c  c  c }
+        \hline
+        F\backslash B & r   & b   & g   \\
+        \hline
+        $a$           & $3$ & $1$ & $3$ \\
+        $o$           & $4$ & $1$ & $3$ \\
+        $l$           & $3$ & $0$ & $4$ \\
+        \hline
+    \end{tabular}
+    \label{tab:q2}
+\end{table}
+
+(1) To find the probability of selecting an apple, we use the law of total probability across all boxes:
+
+\[
+    P(F = a) = \sum_{i = r, b, g}{P(F = a, B = i)} = \sum_{i = r, b, g}{P(F = a \mid B = i)P(B = i)}
+\]
+
+From the table we can find the conditional probabilities:
+
+\begin{align*}
+    P(F = a \mid B = r) &= \frac{3}{3 + 4 + 3} = \frac{3}{10} \\
+    P(F = a \mid B = b) &= \frac{1}{1 + 1 + 0} = \frac{1}{2} \\
+    P(F = a \mid B = g) &= \frac{3}{3 + 3 + 4} = \frac{3}{10}
+\end{align*}
+
+Therefore,
+
+\begin{align*}
+    P(F = a)
+    &= \sum_{i = r, b, g}{P(F = a \mid B = i)P(B = i)} \\
+    &= \frac{3}{10} \times 0.2 + \frac{1}{2} \times 0.2 + \frac{3}{10} \times 0.6 \\
+    &= \frac{3}{50} + \frac{5}{50} + \frac{9}{50} \\
+    &= \frac{17}{50}
+\end{align*}
+
+(2) The probability that an orange is selected from a green box is calculated by
+
+\[
+    P(B = g \mid F = o)
+    = \frac{P(B = g, F = o)}{P(F = o)}
+\]
+
+We first find the $P(F = o)$:
+
+\begin{align*}
+    P(F = o)
+    &= \sum_{i = r, b, g}{P(F = o \mid B = i)P(B = i)} \\
+    &= \frac{4}{3 + 4 + 3} \times 0.2 + \frac{1}{1 + 1 + 0} \times 0.2 + \frac{3}{3 + 3 + 4} \times 0.6 \\
+    &= \frac{4}{10} \times 0.2 + \frac{1}{2} \times 0.2 + \frac{3}{10} \times 0.6 \\
+    &= \frac{4}{50} + \frac{5}{50} + \frac{9}{50} \\
+    &= \frac{18}{50}
+\end{align*}
+
+Then, we obtain
+
+\[
+    P(B = g \mid F = o) = \frac{P(B = g, F = o)}{P(F = o)} = \frac{9}{50} \times \left(\frac{18}{50}\right)^{-1} = \frac{1}{2}
+\]
+

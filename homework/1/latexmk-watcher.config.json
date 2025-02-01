@@ -1,0 +1,10 @@
+{
+  "sourceDir": "src",
+  "buildDir": "build",
+  "defaultFile": "main.tex",
+  "latexmkCommand": "latexmk",
+  "latexmkOptions": "-pdf -cd",
+  "watchInterval": 1000,
+  "previewer": "Safari",
+  "releaseDir": "."
+}

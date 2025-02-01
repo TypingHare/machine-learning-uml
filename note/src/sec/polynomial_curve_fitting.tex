@@ -1,0 +1,75 @@
+\section{Polynomial Curve Fitting}\label{sec:polynomial_curve_fitting}
+
+Consider a \textbf{training set} of $N$ paired observations $(x_i, y_i)_{i=1}^N$, where $x_i \in \mathbb{R}$ are the inputs and $y_i \in \mathbb{R}$ are the corresponding outputs.
+Let $f: \mathbb{R} \to \mathbb{R}$ be the function that maps inputs to outputs.
+
+Our objective is to predict values $\hat{y}$ of the target variable for new input values $x$ using the training set.
+We approach this through \textbf{curve fitting}, specifically by fitting a polynomial function of the form:
+
+\[
+    \hat{y} = g(x, \mathbf{w}) = \sum_{i = 0}^{M}{w_{i}x^i} \tag{2.1}
+\]
+
+Where $M$ is the order of the polynomial and $\mathbf{w} = (w_0, \cdots w_M)^T$ is the vector of \textbf{polynomial coefficient} to be determined from the training data.
+
+To find optimal coefficients $\mathbf{w}$, we minimize an \textbf{error function} that quantifies the discrepancy between $g(x, \mathbf{w})$ and the observed values $y$.
+We use the \textbf{sum-of-squares error (SSE)}:
+
+\[
+    E(\mathbf{w})
+    = \frac{1}{2}\sum_{x}{ (\hat{y} - y)^2 }
+    = \frac{1}{2}\sum_{n = 1}^{N}{ \left[ g(x_n, \mathbf{w}) - f(x_n) \right]^2 } \tag{2.2}
+\]
+
+Let us define the polynomial basis vector:
+
+\[
+    p_M(x) = (1, x, x^2, \cdots, x^M)^T
+\]
+
+This allows us to expression equation (2.1) in matrix form:
+
+\[
+    g(x, \mathbf{w}) = \mathbf{Xw} \tag{2.3}
+\]
+
+Where $\mathbf{X}$ is the $N \times (M + 1)$ design matrix whose $n$-th row is $p_M(x_n)^T$.
+
+The equation 2.2 can then be rewritten as:
+
+\[
+    E(\mathbf{w})
+    = \frac{1}{2} || \mathbf{Xw} - \mathbf{y} ||^2
+    = \mathbf{w}^T\mathbf{X}^T\mathbf{Xw} - 2\mathbf{Xwy} + \mathbf{y}^{T}\mathbf{y} \tag{2.4}
+\]
+
+To minimize $E(\mathbf{w})$, we set its gradient with respect to $\mathbf{w}$ to zero:
+
+\[
+    \frac{d}{d\mathbf{w}}E(\mathbf{w})
+    = 2\mathbf{X}^T\mathbf{Xw} - 2\mathbf{X}^T\mathbf{y} = 0
+\]
+
+Solving for $\mathbf{w}$ yields:
+
+\[
+    \mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{y} \tag{2.5}
+\]
+
+In practice, observed data often contains noise, and higher-order polynomials are prone to overfitting.
+To mitigate overfitting, we introduce \textbf{regularization} by adding a penalty term to the error function:
+
+\[
+    E(\mathbf{w}) = \frac{1}{2} \|\mathbf{Xw} - \mathbf{y}\|^2 + \frac{\lambda}{2}\|\mathbf{w}\|^2 \tag{2.6}
+\]
+
+where $\lambda > 0$ is the \textbf{regularization parameter} that controls the trade-off between fitting the data and keeping the polynomial coefficients small.
+This form of regularization is known as \textbf{L2 regularization} or \textbf{ridge regression}.
+
+Setting the gradient to zero and solving for $\mathbf{w}$, we obtain:
+
+\[
+    \mathbf{w} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I}_{M+1})^{-1}\mathbf{X}^T\mathbf{y} \tag{2.7}
+\]
+
+where $\mathbf{I}_{M+1}$ is the $(M+1) \times (M+1)$ identity matrix.
