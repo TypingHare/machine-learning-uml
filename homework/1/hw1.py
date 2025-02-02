@@ -45,7 +45,10 @@ class PolynomialFeature(object):
         Example: given x = [5, 6], degree = 2, the following polynomial feature
         vector will be returned: [[1, 1], [5, 6]]
         :param x: A vector of features to be transformed to polynomial features.
-        :return: A matrix of transformed features.
+        The size of the vector is N, where N is the number of samples.
+        :return: A matrix of transformed features. The shape of the matrix is
+        (N, M + 1), where N is the number of samples and M is the degree of the
+        polynomial feature.
         """
         if x.ndim == 1:
             x = x[:, None]  # ensure size (:,1) instead of (:,)
@@ -65,33 +68,82 @@ class Regression(object):
 
 class LinearRegression(Regression):
     def __init__(self):
-        # The weight matrix
+        # The vector of weights; the length of this vector is M + 1, where M is
+        # the degree of the polynomial feature.
         self.w = None
 
     def _reset(self):
         self.w = None
 
     def _fit(self, x_train: np.ndarray, y_train: np.ndarray):
-
-        # This is the fit function. Implement the equations that calculate
-        # the mean and variance of the solution
-        # --- Your Code Here ---#
-        # part (e)
-        self.w = None
+        """
+        Fits the linear regression model using the normal equation.
+        :param x_train: A matrix of shape (N, M + 1), where N is the number of
+        samples, and M is the degree of the polynomial feature.
+        :param y_train: A vector of length N, where N is the number of samples.
+        :return: The product of the pseudo inverse of x_train and y_train. It
+        is a vector of length M + 1, where M is the degree of the polynomial
+        feature.
+        """
+        self.w = np.linalg.pinv(x_train) @ y_train
 
     def _predict(self, x: np.ndarray, return_std: bool = False):
-        # --- Your Code Here ---#
-        # part (f)
-        y = x
+        """
+        Predicts the target values for the given input vector.
+        :param x: The input matrix of shape (N, M).
+        :param return_std:
+        :return: A vector of length N, where N is the number of samples. (y)
+        """
+        return x @ self.w
 
 
 def rmse(a, b):
-    """Calculates the RMSE error between two vectors"""
-    # --- Your Code Here ---#
-    # part (j)
-    return 0.0
+    """Calculates the root-mean-square error between two vectors"""
+    assert len(a) == len(b)
+    return np.sqrt(np.mean((a - b) ** 2))
 
 
+def draw_polynomial(x_test, y_test, weights):
+    """Draws a plot of a polynomial."""
+
+    # Create the plot of `func` in (0, 1)
+    x = np.linspace(0, 1, 100)
+    plt.figure(figsize=(8, 6))
+    plt.plot(x, func(x), "g-", label="t = sin(2πx)")
+
+    # Draw the test points
+    for i in range(len(x_test)):
+        plt.plot(x_test[i], y_test[i], "bo", markersize=7, markerfacecolor="none")
+
+    # Draw the polynomial
+    plt.plot(x, np.polyval(weights[::-1], x), "r-", label="fitting curve")
+
+    plt.xlabel("x")
+    plt.ylabel("t")
+    plt.legend()
+    plt.show()
+
+
+def draw_rmse(n, e_rms_train, e_rms_test):
+    x = np.linspace(0, n - 1, n)
+    plt.figure(figsize=(8, 6))
+
+    # Lines
+    plt.plot(x, e_rms_train, "b-", label="Training")
+    plt.plot(x, e_rms_test, "r-", label="Testing")
+
+    # Points
+    for i in range(n):
+        plt.plot(i, e_rms_train[i], "bo", markersize=7, markerfacecolor="none")
+        plt.plot(i, e_rms_test[i], "ro", markersize=7, markerfacecolor="none")
+
+    plt.xlabel("x")
+    plt.ylabel("E_RMS")
+    plt.legend()
+    plt.show()
+
+
+# noinspection PyProtectedMember
 def main():
     # --- Your Code Here ---#
     # part (b) - generate training set
@@ -112,14 +164,53 @@ def main():
     x_test_pf0 = pf0.transform(x_test)
     x_test_pf1 = pf1.transform(x_test)
     x_test_pf3 = pf3.transform(x_test)
-    x_test_pf9 = pf3.transform(x_test)
-    print(x_train_pf9)
+    x_test_pf9 = pf9.transform(x_test)
 
-    # part (g)
-    # part (h)
+    # part (g) - Train the four models with training sets
+    lr0 = LinearRegression()
+    lr0._fit(x_train_pf0, t_train)
+    lr1 = LinearRegression()
+    lr1._fit(x_train_pf1, t_train)
+    lr3 = LinearRegression()
+    lr3._fit(x_train_pf3, t_train)
+    lr9 = LinearRegression()
+    lr9._fit(x_train_pf9, t_train)
+
+    # part (h) - Predict the testing targets
+    t_test_pf0 = lr0._predict(x_test_pf0)
+    t_test_pf1 = lr1._predict(x_test_pf1)
+    t_test_pf3 = lr3._predict(x_test_pf3)
+    t_test_pf9 = lr9._predict(x_test_pf9)
+
     # part (i)
+    # draw_plot(x_train, t_train, lr0.w)
+    # draw_plot(x_train, t_train, lr1.w)
+    # draw_plot(x_train, t_train, lr3.w)
+    # draw_plot(x_train, t_train, lr9.w)
 
-    # part (k)
+    # part (j)
+    print(f"RMSE when M = 0: {rmse(t_test, t_test_pf0)}")
+    print(f"RMSE when M = 1: {rmse(t_test, t_test_pf1)}")
+    print(f"RMSE when M = 3: {rmse(t_test, t_test_pf3)}")
+    print(f"RMSE when M = 9: {rmse(t_test, t_test_pf9)}")
+
+    # part (k) - loops over all orders in [0, 9]
+    e_rms_train = []
+    e_rms_test = []
+    for order in range(10):
+        pf = PolynomialFeature(order)
+        x_train_pf = pf.transform(x_train)
+        x_test_pf = pf.transform(x_test)
+        lr = LinearRegression()
+        lr._fit(x_train_pf, t_train)
+        t_train_pf = lr._predict(x_train_pf)
+        t_test_pf = lr._predict(x_test_pf)
+        e_rms_train.append(rmse(t_train, t_train_pf))
+        e_rms_test.append(rmse(t_test, t_test_pf))
+    print(e_rms_train)
+    print(e_rms_test)
+    draw_rmse(10, e_rms_train, e_rms_test)
+
     # part (l)
 
 
