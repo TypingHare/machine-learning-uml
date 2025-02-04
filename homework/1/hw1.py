@@ -209,7 +209,7 @@ def main():
         e_rms_train.append(rmse(t_train, t_train_pf))
         e_rms_test.append(rmse(t_test, t_test_pf))
         weights_vector.append(lr.w)
-    draw_rmse(10, e_rms_train, e_rms_test)
+    # draw_rmse(10, e_rms_train, e_rms_test)
 
     # part (l)
     print_weights(weights_vector)

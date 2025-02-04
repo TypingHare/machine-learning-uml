@@ -6,5 +6,5 @@
   "latexmkOptions": "-pdf -cd",
   "watchInterval": 1000,
   "previewer": "Safari",
-  "releaseDir": "."
+  "releaseDir": "release"
 }

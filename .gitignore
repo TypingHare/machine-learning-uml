@@ -10,3 +10,8 @@
 
 ### latexmk build ###
 build
+
+### Zip files ###
+.zip
+
+release/
