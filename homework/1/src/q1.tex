@@ -1,38 +1,41 @@
-1. From the definition of probability distribution and expectation, we have
+\question Q1\droppoints
 
-\[
-    \sum_{x}{p(x)} = 1 \quad \text{and} \quad \mathbb{E}[f] = \sum_{x}{p(x)f(x)}
-\]
+\begin{solution}
+    From the definition of probability distribution and expectation, we have
 
-To express the variance, we expand the square:
+    \[
+        \sum_{x}{p(x)} = 1 \quad \text{and} \quad \mathbb{E}[f] = \sum_{x}{p(x)f(x)}
+    \]
 
-\[
-    \mathbb{V}[f]
-    = \mathbb{E}[(f - \mathbb{E}[f])^2]
-    = \mathbb{E}[f^2 - 2f \cdot \mathbb{E}[f] + (\mathbb{E}[f])^2)]
-\]
+    To express the variance, we expand the square:
 
-Rewriting the expectation using summation notation:
+    \[
+        \mathbb{V}[f]
+        = \mathbb{E}[(f - \mathbb{E}[f])^2]
+        = \mathbb{E}[f^2 - 2f \cdot \mathbb{E}[f] + (\mathbb{E}[f])^2)]
+    \]
 
-\[
-    \mathbb{V}[f]
-    = \sum_{x}{pf^2} - \sum_{x}{2pf\mathbb{E}[f]} + \sum_{x}{pE[f]^2}
-\]
+    Rewriting the expectation using summation notation:
 
-Since $\mathbb{E}[f]$ is a constant (the mean of the probability density function $f(x)$), we can factor it out of the summation:
+    \[
+        \mathbb{V}[f]
+        = \sum_{x}{pf^2} - \sum_{x}{2pf\mathbb{E}[f]} + \sum_{x}{pE[f]^2}
+    \]
 
-\begin{align*}
-    \mathbb{V}[f]
-    &= \sum_{x}{pf^2} - 2\mathbb{E}[f]\sum_{x}{pf} + E[f]^2\sum_{x}{p} \\
-    &= \sum_{x}{pf^2} - 2\mathbb{E}[f] \cdot \mathbb{E}[f] \cdot + E[f]^2 \cdot 1 \\
-    &= \sum_{x}{pf^2} - E[f]^2
-\end{align*}
+    Since $\mathbb{E}[f]$ is a constant (the mean of the probability density function $f(x)$), we can factor it out of the summation:
 
-Rewriting $\sum_{x}{pf^2}$ as $\mathbb{E}[\cdot]$, we arrive at final form:
+    \begin{align*}
+        \mathbb{V}[f]
+        &= \sum_{x}{pf^2} - 2\mathbb{E}[f]\sum_{x}{pf} + E[f]^2\sum_{x}{p} \\
+        &= \sum_{x}{pf^2} - 2\mathbb{E}[f] \cdot \mathbb{E}[f] \cdot + E[f]^2 \cdot 1 \\
+        &= \sum_{x}{pf^2} - E[f]^2
+    \end{align*}
 
-\[
-    \mathbb{V}[f] = \mathbb{E}[f^2] - 2E[f]
-\]
+    Rewriting $\sum_{x}{pf^2}$ as $\mathbb{E}[\cdot]$, we arrive at final form:
 
-In the case of continuous variables, a similar approach can be used to deduce the formula for variance.
+    \[
+        \mathbb{V}[f] = \mathbb{E}[f^2] - E[f]^2
+    \]
 
+    In the case of continuous variables, a similar approach can be used to deduce the formula for variance.
+\end{solution}

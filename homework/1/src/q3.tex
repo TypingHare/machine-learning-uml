@@ -1,2 +1,51 @@
-3. \textbf{Proof}
+\question Q3\droppoints
 
+\begin{solution}
+    Let $p(x) = \mathcal{N}(\mu, \sigma^2)$ be a normal distribution.
+    From its properties, we have:
+
+    \begin{align*}
+        \mathbb{E}[x] &= \mu \\
+        \mathbb{E}[(x - m)^2] &= \sigma^2 + (\mu - m)^2
+    \end{align*}
+
+    Let $f(x) = \mathcal{N}(x \mid n, t^2)$ be another normal distribution.
+    Its probability density function is:
+
+    \[
+        f(x) = \frac{1}{\sqrt{2\pi t^2}} \exp\left\{-\frac{(x - n)^2}{2t^2}\right\}
+    \]
+
+    Taking the natural logarithm of both sides:
+
+    \begin{align*}
+        \ln f(x)
+        &= \ln\left((2\pi t^2)^{-\frac{1}{2}}\right) - \frac{(x - n)^2}{2t^2} \\
+        &= -\frac{1}{2}\ln(2\pi t^2) - \frac{(x - n)^2}{2t^2}
+    \end{align*}
+
+    Therefore:
+    \begin{align*}
+        \int p(x)f(x)\,dx
+        &= \mathbb{E}[f(x)] \\
+        &= \mathbb{E}\left[-\frac{1}{2}\ln(2\pi t^2) - \frac{(x - n)^2}{2t^2}\right] \\
+        &= -\frac{1}{2}\ln(2\pi t^2) - \frac{1}{2t^2}\mathbb{E}\left[(x - n)^2\right]
+    \end{align*}
+
+    Using the properties of normal distribution:
+
+    \[
+        \int p(x)f(x)\,dx = -\frac{1}{2}\ln(2\pi t^2) - \frac{\sigma^2 + (\mu - n)^2}{2t^2}
+    \]
+
+    Now we can derive the Kullback-Leibler divergence $\text{KL}(p \parallel q)$:
+
+    \begin{align*}
+        \text{KL}(p \parallel q)
+        &= \int p(x)\ln p(x)\,dx - \int p(x)\ln q(x)\,dx \\
+        &= -\frac{1}{2}\ln(2\pi \sigma^2) - \frac{1}{2\sigma^2}[\sigma^2 + (\mu - \mu)^2] \\
+        &\quad - \left\{-\frac{1}{2}\ln(2\pi s^2) - \frac{1}{2s^2}[\sigma^2 + (\mu - m)^2]\right\} \\
+        &= \frac{1}{2}\ln(2\pi s^2) - \frac{1}{2}\ln(2\pi \sigma^2) + \frac{\sigma^2 + (\mu - m)^2}{2s^2} - \frac{1}{2} \\
+        &= \ln\left|\frac{s}{\sigma}\right| + \frac{\sigma^2 + (\mu - m)^2}{2s^2} - \frac{1}{2}
+    \end{align*}
+\end{solution}

@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt, letterpaper, onecolumn]{exam}
 
 % Layout
 \usepackage[letterpaper, margin=1in]{geometry}
@@ -24,13 +24,16 @@
 \usepackage{mathtools}
 
 \begin{document}
-    \input{q1}
-    \vspace{1.5em}
-    \input{q2}
-    \vspace{1.5em}
-    \input{q3}
-    \vspace{1.5em}
-    \input{q4}
-    \vspace{1.5em}
-    \input{q5}
+    \pointsdroppedatright
+    \printanswers
+    \renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}
+
+    \begin{questions}
+        \input{q1}
+        \input{q2}
+        \input{q3}
+        \input{q4}
+    \end{questions}
+
+
 \end{document}

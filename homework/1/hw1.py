@@ -91,7 +91,7 @@ class LinearRegression(Regression):
         """
         Predicts the target values for the given input vector.
         :param x: The input matrix of shape (N, M).
-        :param return_std:
+        :param return_std: I don't know what it means.
         :return: A vector of length N, where N is the number of samples. (y)
         """
         return x @ self.w
@@ -183,10 +183,10 @@ def main():
     t_test_pf9 = lr9._predict(x_test_pf9)
 
     # part (i)
-    # draw_plot(x_train, t_train, lr0.w)
-    # draw_plot(x_train, t_train, lr1.w)
-    # draw_plot(x_train, t_train, lr3.w)
-    # draw_plot(x_train, t_train, lr9.w)
+    # draw_polynomial(x_train, t_train, lr0.w)
+    # draw_polynomial(x_train, t_train, lr1.w)
+    # draw_polynomial(x_train, t_train, lr3.w)
+    # draw_polynomial(x_train, t_train, lr9.w)
 
     # part (j)
     print(f"RMSE when M = 0: {rmse(t_test, t_test_pf0)}")
@@ -197,6 +197,7 @@ def main():
     # part (k) - loops over all orders in [0, 9]
     e_rms_train = []
     e_rms_test = []
+    weights_vector = []
     for order in range(10):
         pf = PolynomialFeature(order)
         x_train_pf = pf.transform(x_train)
@@ -207,11 +208,49 @@ def main():
         t_test_pf = lr._predict(x_test_pf)
         e_rms_train.append(rmse(t_train, t_train_pf))
         e_rms_test.append(rmse(t_test, t_test_pf))
-    print(e_rms_train)
-    print(e_rms_test)
+        weights_vector.append(lr.w)
     draw_rmse(10, e_rms_train, e_rms_test)
 
     # part (l)
+    print_weights(weights_vector)
+
+
+def print_weights(weights_vector):
+    # Pre-process weights
+    _weights_vector = []
+    for i in range(len(weights_vector)):
+        _weights_vector.append([])
+        for j in range(len(weights_vector[i])):
+            _weights_vector[i].append(str(round(weights_vector[i][j], 2)))
+            if _weights_vector[i][j][0] != "-":
+                _weights_vector[i][j] = " " + _weights_vector[i][j]
+
+    # Find the max widths of each column
+    max_columns = [0] * len(_weights_vector)
+    for i in range(len(_weights_vector)):
+        for weight in _weights_vector[i]:
+            max_columns[i] = max(max_columns[i], len(str(weight)))
+
+    # Print the header
+    print("\n[Polynomial Coefficients (Weights) Table]\n")
+    print("w/M", end=" " * 4)
+    for col in range(len(_weights_vector)):
+        col_str = str(col)
+        print(col_str, end=" " * (max_columns[col] + 2 - len(col_str)))
+    print()
+    print("-" * 100)
+
+    # Print the table body
+    rows = len(_weights_vector[-1])
+    for row in range(rows):
+        print(f"w*{row}", end=" " * 2)
+        for col in range(len(_weights_vector)):
+            if row < len(_weights_vector[col]):
+                num_str = str(_weights_vector[col][row])
+                print(num_str, end=" " * (max_columns[col] - len(num_str) + 2))
+            else:
+                print(end=" " * (max_columns[col] + 2))
+        print()
 
 
 if __name__ == "__main__":
