@@ -1,0 +1,65 @@
+\question Q2\droppoints
+
+\begin{solution}
+    First, statistical independence implies:
+    \[
+        P(X = x, Z = z) = P_X(x)P_Z(z)
+    \]
+
+    Using this property, we can show that the expectation of their product equals the product of their expectations:
+    \[
+        \begin{aligned}
+            \mathbb{E}[XZ]
+            &= \sum_{x}\sum_{z}{p(x, z)(xz)} \\
+            &= \sum_{x}\sum_{z}{p_X(x)p_Z(z)(xz)} \\
+            &= \left( \sum_{x}{xp_X(x)} \right) \left( \sum_{z}{zp_Z(z)} \right) \\
+            &= \mathbb{E}[X]\mathbb{E}[Z]
+        \end{aligned}
+    \]
+
+    Next, let's verify that expectation is linear for these variables:
+    \[
+        \begin{aligned}
+            \mathbb{E}[X + Z]
+            &= \sum_{x}\sum_{z}{p(x, z)(x + z)} \\
+            &= \sum_{x}\sum_{z}{p(x, z)x} + \sum_{x}\sum_{z}{p(x, z)z} \\
+            &= \sum_{x}{x}\sum_{z}p(x, z) + \sum_{z}{z}\sum_{x}p(x, z) \\
+            &= \sum_{x}{xp_X(x)} + \sum_{z}{zp_Z(z)} \\
+            &= \mathbb{E}[X] + \mathbb{E}[Z]
+        \end{aligned}
+    \]
+
+    Expanding the variance, we obtain
+    \[
+        \begin{aligned}
+            \mathbb{V}[X + Z]
+            &= \mathbb{E}[X^2 + 2XZ + Z^2] - (\mathbb{E}[X] + \mathbb{E}[Z])^2 \\
+            &= \mathbb{E}[X^2] + 2\mathbb{E}[XZ] + \mathbb{E}[Z^2] - (\mathbb{E}[X]^2 + 2\mathbb{E}[X]\mathbb{E}[Z] + \mathbb{E}[Z]^2) \\
+            &= (\mathbb{E}[X^2] - \mathbb{E}[X]^2) +  (\mathbb{E}[Z^2] - \mathbb{E}[Z]^2) + 2(\mathbb{E}[XZ] - \mathbb{E}[X]\mathbb{E}[Z]) \\
+            &= \mathbb{V}[X] + \mathbb{V}[Z] + 2(\mathbb{E}[XZ] - \mathbb{E}[X]\mathbb{E}[Z])
+        \end{aligned}
+    \]
+
+    Finally, using our earlier result that $\mathbb{E}[XZ] = \mathbb{E}[X]\mathbb{E}[Z]$, we conclude:
+    \[
+        \begin{align*}
+            \mathbb{V}[X + Z]
+            &= \mathbb{V}[X] + \mathbb{V}[Z] + 2(\mathbb{E}[X]\mathbb{E}[Z] - \mathbb{E}[X]\mathbb{E}[Z]) \\
+            &= \mathbb{V}[X] + \mathbb{V}[Z] + 2 \times 0 \\
+            &= \mathbb{V}[X] + \mathbb{V}[Z] \\
+        \end{align*}
+    \]
+
+    The same result holds for continuous random variables, where the summations are replaced by integrals:
+    \[
+        \begin{aligned}
+            \mathbb{E}[XZ] &= \iint_{-\infty}^{\infty} xz f_{X,Z}(x,z) \,dx\,dz \\
+            &= \iint_{-\infty}^{\infty} xz f_X(x)f_Z(z) \,dx\,dz \\
+            &= \left(\int_{-\infty}^{\infty} x f_X(x) \,dx\right) \left(\int_{-\infty}^{\infty} z f_Z(z) \,dz\right) \\
+            &= \mathbb{E}[X]\mathbb{E}[Z]
+        \end{aligned}
+    \]
+
+    where $f_{X,Z}(x,z)$ is the joint probability density function and $f_X(x), f_Z(z)$ are the marginal density functions.
+    The rest of the proof follows identically.
+\end{solution}

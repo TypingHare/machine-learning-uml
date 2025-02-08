@@ -1,0 +1,29 @@
+\question Q3\droppoints
+
+\begin{solution}
+    The binomial distribution describes a series of $N$ independent repeated events, where each event follows a Bernoulli distribution with parameter $\mu$. Let $m$ be the binomial random variable and $x$ be a Bernoulli random variable.
+
+    For a Bernoulli distribution, we have:
+    \[
+        \mathbb{E}[x] = \mu
+        \quad
+        \text{and}
+        \quad
+        \mathbb{V}[x] = \mu(1 - \mu)
+    \]
+
+    Since the binomial distribution is a sum of $N$ independent Bernoulli trials, we can apply the linearity of expectation and variance:
+    \[
+        \mathbb{E}[m] = \sum_{N}{\mathbb{E}[x]}
+        \quad
+        \text{and}
+        \quad
+        \mathbb{V}[m] = \sum_{N}{\mathbb{V}[x]}
+    \]
+
+    Therefore:
+    \begin{gather*}
+        \mathbb{E}[m] = \sum_{N}{\mathbb{E}[x]} = N\mu\\
+        \mathbb{V}[m] = \sum_{N}{\mathbb{V}[x]} = N\mu(1 - \mu)\\
+    \end{gather*}
+\end{solution}

@@ -1,0 +1,43 @@
+\question Q1\droppoints
+
+\begin{solution}
+    Consider rolling a fair six-sided die multiple times.
+    Since the die is fair, the probability of rolling any particular number is:
+
+    \[
+        p = \frac{1}{6}
+    \]
+
+    Since each roll is independent and we are interested in a specific number of successes, this scenario follows a binomial distribution.
+    The probability mass function for a binomial distribution is:
+
+    \[
+        P(X = k \mid n, p) = \binom{n}{k} p^k(1 - p)^{n-k}
+    \]
+
+    where:
+    \begin{itemize}
+        \item $n$ is the number of trials
+        \item $k$ is the number of successes
+        \item $p$ is the probability of success on each trial
+    \end{itemize}
+
+    In this problem, we want to find $P(X = 5)$ where:
+    \begin{itemize}
+        \item $n = 10$ (total number of rolls)
+        \item $k = 5$ (number of sixes desired)
+        \item $p = \frac{1}{6}$ (probability of rolling a six)
+    \end{itemize}
+
+    Therefore:
+    \[
+        \begin{aligned}
+            P(X = 5) &= \binom{10}{5} \left(\frac{1}{6}\right)^5 \left(\frac{5}{6}\right)^5 \\[1ex]
+            &= \frac{10!}{5!(10-5)!} \left(\frac{1}{6}\right)^5 \left(\frac{5}{6}\right)^5 \\[1ex]
+            &= 252 \cdot \left(\frac{1}{6^5}\right) \cdot \left(\frac{5^5}{6^5}\right) \\[1ex]
+            &\approx 0.0130
+        \end{aligned}
+    \]
+
+    Thus, the probability of rolling exactly five sixes in ten rolls is approximately 1.30\%.
+\end{solution}
