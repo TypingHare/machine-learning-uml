@@ -23,3 +23,6 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
 pylint = "^3.3.3"
+
+[tool.black]
+line-length = 80
