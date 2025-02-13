@@ -1,0 +1,40 @@
+\section{Linear Models for Regression}\label{sec:linear_models_for_regression}
+
+Given a training dataset comprising $N$ observations ${\mathbf{x}_n}$, where $n = 1, \dots, N$, together with the corresponding target values ${t_n}$.
+The deterministic solution is represented as $y(\mathbf{x}_n) = t_n$, and the predictive distribution is represented as $p(t \mid \mathbf{x})$.
+
+\[
+    y(x, w) = \sum_{j = 0}^{M}{w_j\phi_j(\mathbf{x})} = \mathbf{w}^T\bm{\phi}(\mathbf{x})
+\]
+
+Where $\mathbf{w} = (w_0, \dots, w_{M})^T$ and $\bm{\phi} = (\phi_0, \dots, \phi_{M})^T$.
+Function $\phi_j$ is called a \textbf{basis function} or a \textbf{feature function}.
+In polynomial curve fitting, we used $\phi_j{x}=x^j$ as the basis function.
+
+There are two other commonly used basis functions—Gaussian basis functions
+
+\[
+    \phi_j(x) = \exp{\left(-\frac{(x - \mu_j)^2}{2s^2}\right)}
+\]
+
+and Sigmoidal basis function:
+
+\[
+    \phi_j(x) = \sigma\left(\frac{x - \mu_j}{s}\right)
+\]
+
+Where
+
+\[
+    \sigma(a) = \frac{1}{1 + e^{-a}}
+\]
+
+In these two type of basis functions, $\mu_j$ controls the location and $s$ controls the shape.
+
+Assume observation from a deterministic function with added Gaussian noise:
+
+\[
+    t = y(\bm{x}, \bm{w}) + \epsilon
+\]
+
+Where $p(\epsilon \mid \beta) = \mathcal{N}(0, \beta^{-1})$
