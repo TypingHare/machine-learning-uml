@@ -1,0 +1,40 @@
+\question Q1\droppoints
+
+\begin{solution}
+    \text{(a)} \textbf{Proof.} By the definition of $\tanh$, we have
+
+    \[
+        \begin{align*}
+            \tanh(a)
+            &= \frac{e^x - e^{-x}}{e^x + e^{-x}} & \\
+            &= \frac{1 - e^{-2x}}{1 + e^{-2x}} & \text{(Cancel out } ${e^x}$ \text{)} \\
+            &= \frac{2 - (1 + e^{-2a})}{1 + e^{-2x}} & \\
+            &= 2 \cdot \frac{1}{1 + e^{-2x}} - 1 & \\
+            &= 2\sigma(2a) - 1
+        \end{align*}
+    \]
+
+    \text{(b)} \textbf{Proof.} Let us denote
+    \[
+        z(x, \mathbf{u}) = u_0 + \sum_{j=1}^{M}{u_j \sigma \left(\frac{x - \mu_j}{s}\right)}.
+    \]
+
+    From the conclusion of part (a), we have:
+    \begin{align*}
+        y(x, \mathbf{u})
+        &= u_0 + \sum_{j=1}^{M}{u_j \tanh \left(\frac{x - \mu_j}{2s}\right)} \\[0.5em]
+        &= u_0 + \sum_{j=1}^{M}{u_j \left[ 2\sigma \left(\frac{x - \mu_j}{s}\right) - 1 \right]} \\[0.5em]
+        &= u_0 + \sum_{j=1}^{M}{2u_j\sigma\left(\frac{x - \mu_j}{s}\right)} - \sum_{j=1}^{M}{u_j} \\[0.5em]
+        &= \left(u_0 - \sum_{j=1}^{M}{u_j}\right) + \sum_{j=1}^{M}{2u_j\sigma\left(\frac{x - \mu_j}{s}\right)} \\[0.5em]
+        &= z(x, \mathbf{w})
+    \end{align*}
+
+    \text{(c)} The relationship between $\mathbf{u}$ and $\mathbf{w}$ in part \text{(b)} is as follows:
+
+    \[
+        w_0 = u_0 - \sum_{j=1}^{M}{u_j}
+    \]
+
+    and $w_j = 2u_j$ for $1 \leq j \leq M$.
+
+\end{solution}

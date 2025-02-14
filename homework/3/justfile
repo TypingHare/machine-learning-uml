@@ -1,0 +1,9 @@
+release:
+    mkdir -p release
+    cp latex/build/main.pdf release/hw3.pdf
+    cp src/hw3.py release/
+    cp src/regression.py release/
+    zip hw3.zip release/*
+    mv hw3.zip ~/Downloads
+    rm -rf release
+    echo "Released hw3.zip (~/Downloads/hw3.zip)."

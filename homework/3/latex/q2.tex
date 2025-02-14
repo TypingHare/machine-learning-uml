@@ -1,0 +1,40 @@
+\question Q2\droppoints
+
+\begin{solution}
+    \text{(a)} Let us first find the derivative of $E_D(\mathbf{w})$ with respect to $\mathbf{w}$:
+    \begin{align*}
+        \frac{\partial}{\partial \mathbf{w}} E_D(\mathbf{w})
+        &= \sum_{n = 1}^{N} r_n \left[ t_n - \mathbf{w}^T\phi(\mathbf{x}_n) \right] \left[ -\phi(\mathbf{x}_n) \right] \\[0.5em]
+        &= -\sum_{n = 1}^{N} r_n \phi(\mathbf{x}_n) \left[ t_n - \mathbf{w}^T\phi(\mathbf{x}_n) \right]
+    \end{align*}
+
+    Setting $\frac{\partial}{\partial \mathbf{w}}E_D(\mathbf{w}) = \mathbf{0}$, we obtain:
+    \[
+        \sum_{n = 1}^{N} r_n t_n \phi(\mathbf{x}_n)
+        = \sum_{n = 1}^{N} r_n \mathbf{w}^{*T} \phi(\mathbf{x}_n) \phi(\mathbf{x}_n)^T
+    \]
+
+    Let us denote
+    \[
+        \bm{\Phi} = \sum_{n = 1}^{N} r_n \phi(\mathbf{x}_n) \phi(\mathbf{x}_n)^T.
+    \]
+
+    Since $\bm{\Phi}$ is symmetric, we have
+    \[
+        \sum_{n = 1}^{N} r_n t_n \phi(\mathbf{x}_n) = \bm{\Phi} \mathbf{w}^*.
+    \]
+
+    Therefore, the optimal solution is:
+    \[
+        \mathbf{w}^* = \bm{\Phi}^{-1} \left[ \sum_{n = 1}^{N} r_n t_n \phi(\mathbf{x}_n) \right].
+    \]
+
+    \text{(b)}
+    \begin{itemize}
+        \item { \textbf{I.}
+        The weighting factor $r_n$ can be interpreted as the inverse of the noise variance $\beta_n$ for each data point, i.e., $r_n = \beta_n^{-1}$.
+        Points with smaller variance (larger $r_n$) contribute more to the error function, reflecting our greater confidence in their accuracy.
+        }
+        \item { \textbf{II.} }
+    \end{itemize}
+\end{solution}
