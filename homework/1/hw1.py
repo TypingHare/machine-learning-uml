@@ -87,11 +87,10 @@ class LinearRegression(Regression):
         """
         self.w = np.linalg.pinv(x_train) @ y_train
 
-    def _predict(self, x: np.ndarray, return_std: bool = False):
+    def _predict(self, x: np.ndarray):
         """
         Predicts the target values for the given input vector.
         :param x: The input matrix of shape (N, M).
-        :param return_std: I don't know what it means.
         :return: A vector of length N, where N is the number of samples. (y)
         """
         return x @ self.w
@@ -113,7 +112,9 @@ def draw_polynomial(x_test, y_test, weights):
 
     # Draw the test points
     for i in range(len(x_test)):
-        plt.plot(x_test[i], y_test[i], "bo", markersize=7, markerfacecolor="none")
+        plt.plot(
+            x_test[i], y_test[i], "bo", markersize=7, markerfacecolor="none"
+        )
 
     # Draw the polynomial
     plt.plot(x, np.polyval(weights[::-1], x), "r-", label="fitting curve")

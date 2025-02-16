@@ -2,6 +2,8 @@
 # COMP.4220 Machine Learning
 
 import itertools, functools
+
+import numpy
 import numpy as np
 import matplotlib.pyplot as plt
 from regression import LinearRegression, RidgeRegression
@@ -14,30 +16,30 @@ from sklearn.preprocessing import StandardScaler as skStandardScalar
 
 def train_test_split(X, t, test_size=0.2, random_state=None):
     """Splits data into training and testing sets using only NumPy."""
-
     if random_state:
         np.random.seed(random_state)
 
-    # ---- Part (d) ---- #
-    # - Your code here - #
-
     # 1. Shuffle the data
-    indices = np.arange(1)
-    X = X
-    t = t
+    n_samples = X.shape[0]
+    indices = np.arange(n_samples)
+    np.random.shuffle(indices)
+    n_train = int(len(indices) * (1 - test_size))
+    train_indices = indices[:n_train]
+    test_indices = indices[n_train:]
 
     # 2. Split the data
-    # split_index = 1
-    X_train = X
-    X_test = []
-    t_train = t
-    t_test = []
+    X_train = X[train_indices]
+    X_test = X[test_indices]
+    t_train = t[train_indices]
+    t_test = t[test_indices]
 
     return X_train, X_test, t_train, t_test
 
 
 def standardscalar(x: np.ndarray):
-    # ---- Part (b) ---- #
+    """Standardizes features by removing the mean and scaling to unit variance
+    (z-score normalization).
+    """
     return (x - np.mean(x, axis=0)) / np.std(x, axis=0)
 
 
@@ -57,90 +59,115 @@ class PolynomialFeature(object):
         return np.asarray(features).transpose()
 
 
+def rmse(target: np.ndarray, prediction: np.ndarray):
+    return np.sqrt(np.mean((target - prediction) ** 2))
+
+
+def r2():
+    pass
+
+
 def main():
     # ---- Part (a) ---- #
-    # - Your code here - #
     housing = fetch_california_housing()
     X = housing.data
     t = housing.target
     # print(housing.DESCR)
 
     # ---- Part (b) ---- #
-    # - Your code here - #
     Xs = standardscalar(X)
-    print(Xs[0:5])
-    exit(0)
 
     # ---- Part (c) ---- #
-    # - Your code here - #
-    Xss = X
-    # print((Xs - Xss))
+    Xss = skStandardScalar().fit_transform(X)
+    # Check if `Xs` and `Xss` are identical
+    print(numpy.array_equal(Xs, Xss))  # Should be `True`
 
     # ---- Part (d) ---- #
-    # - Your code here - #
-    X_train, X_test, t_train, t_test = [], [], [], []
+    X_train, X_test, t_train, t_test = train_test_split(X, t)
 
     # ---- Part (k) ---- #
-    # - Your code here - #
-    # fix the inconsistency between models
+    # Fix the inconsistency between models
+    # "When features have very different scales, features with larger scales can
+    # dominate the model training. Standardization makes all features have
+    # mean=0 and std=1, so they contribute more equally to the model"
+    scalar = skStandardScalar()
+    scalar.fit(X_train)  # Calculate the mean and deviation
+    X_train = scalar.transform(X_train)  # Transform using the formula:
+    X_test = scalar.transform(X_test)  # X' = (X - µ) / σ
+    t_mean = np.mean(t_test)  # Center the targets
+    t_train = t_train - t_mean
+    t_test = t_test - t_mean
+    # "When features are standardized (mean=0, std=1) but target isn't, the
+    # scale mismatch can cause numerical instability in matrix operations
+    # (like pseudoinverse)"
 
     # ---- Part (g, h) ---- #
-    # - Your code here - #
     # Model building
     lr = LinearRegression()
-    y_lr = []
-    print("Linear Regression results")
-    print(f"RMSE: {np.inf}")
-    print(f"R2: {np.inf}")
+    lr.fit(X_train, t_train)
+    y_lr = lr.predict(X_test)
+    print("[Linear Regression Results]")
+    print(f"RMSE: {root_mean_squared_error(t_test, y_lr)}")
+    print(f"R2: {r2_score(t_test, y_lr)}")
+    print()
 
-    rr = RidgeRegression(lambd=1.0)
-    y_rr = []
-    print("Ridge Regression results")
-    print(f"RMSE: {np.inf}")
-    print(f"R2: {np.inf}")
+    rr = RidgeRegression(_lambda=1.0)
+    rr.fit(X_train, t_train)
+    y_rr = rr.predict(X_test)
+    print("[Ridge Regression Results]")
+    print(f"RMSE: {root_mean_squared_error(t_test, y_rr)}")
+    print(f"R2: {r2_score(t_test, y_rr)}")
+    print()
 
     # ---- Part (i) ---- #
-    # - Your code here - #
     lr_sk = skLinearRegression()
-    y_lr_sk = []
-    print("Sklearn Linear Regression results")
-    print(f"RMSE: {np.inf}")
-    print(f"R2: {np.inf}")
+    lr_sk.fit(X_train, t_train)
+    y_lr_sk = lr_sk.predict(X_test)
+    print("[Sklearn Linear Regression Results]")
+    print(f"RMSE: {root_mean_squared_error(t_test, y_lr_sk)}")
+    print(f"R2: {r2_score(t_test, y_lr_sk)}")
+    print()
 
     rr_sk = skRidge(alpha=1.0)
-    y_rr_sk = []
-    print("Sklearn Ridge Regression results")
-    print(f"RMSE: {np.inf}")
-    print(f"R2: {np.inf}")
+    rr_sk.fit(X_train, t_train)
+    y_rr_sk = rr_sk.predict(X_test)
+    print("[Sklearn Ridge Regression Results]")
+    print(f"RMSE: {root_mean_squared_error(t_test, y_rr_sk)}")
+    print(f"R2: {r2_score(t_test, y_rr_sk)}")
+    print()
 
     # ---- Part (j) ---- #
-    # - Your code here - #
     # Plot the results
     plt.figure(figsize=(12, 6))
+    t_min, t_max = np.min(t_test), np.max(t_test)
 
     plt.subplot(2, 2, 1)
-    # use scatter and plot to show the results
-    plt.xlabel("add a proper label")
-    plt.ylabel("add a proper label")
-    plt.title("add a proper title")
+    plt.xlabel("True Values")
+    plt.ylabel("Predicted Values")
+    plt.title("Linear Regression")
+    plt.scatter(t_test, y_lr)
+    plt.plot([t_min, t_max], [t_min, t_max], "r-")
 
     plt.subplot(2, 2, 2)
-    # use scatter and plot to show the results
-    plt.xlabel("add a proper label")
-    plt.ylabel("add a proper label")
-    plt.title("add a proper title")
+    plt.xlabel("True Values")
+    plt.ylabel("Predicted Values")
+    plt.title("Ridge Regression")
+    plt.scatter(t_test, y_rr)
+    plt.plot([t_min, t_max], [t_min, t_max], "r-")
 
     plt.subplot(2, 2, 3)
-    # use scatter and plot to show the results
-    plt.xlabel("add a proper label")
-    plt.ylabel("add a proper label")
-    plt.title("add a proper title")
+    plt.xlabel("True Values")
+    plt.ylabel("Predicted Values")
+    plt.title("Scikit-learn Linear Regression")
+    plt.scatter(t_test, y_lr_sk)
+    plt.plot([t_min, t_max], [t_min, t_max], "r-")
 
     plt.subplot(2, 2, 4)
-    # use scatter and plot to show the results
-    plt.xlabel("add a proper label")
-    plt.ylabel("add a proper label")
-    plt.title("add a proper title")
+    plt.xlabel("True Values")
+    plt.ylabel("Predicted Values")
+    plt.title("Scikit-learn Ridge Regression")
+    plt.scatter(t_test, y_rr_sk)
+    plt.plot([t_min, t_max], [t_min, t_max], "r-")
 
     plt.tight_layout()
     plt.show()
