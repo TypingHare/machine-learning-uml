@@ -1,0 +1,9 @@
+release:
+    mkdir -p release
+    cp latex/build/hw4.pdf release/hw4.pdf
+    cp src/part1.py release/
+    cp src/part2.py release/
+    zip hw4.zip release/*
+    mv hw4.zip ~/Downloads
+    rm -rf release
+    echo "Released hw4.zip (~/Downloads/hw4.zip)."

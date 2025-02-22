@@ -1,7 +1,7 @@
 {
   "sourceDir": "latex",
   "buildDir": "build",
-  "defaultFile": "machine_learning_note.tex",
+  "defaultFile": "hw4.tex",
   "latexmkCommand": "latexmk",
   "latexmkOptions": "-pdf",
   "watchInterval": 1000,

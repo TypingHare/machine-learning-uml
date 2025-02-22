@@ -5,10 +5,7 @@ import numpy as np
 
 
 class Regression(object):
-    def __init__(self):
-        pass
-        # self.w = None
-        # self.t_mean = 0
+    pass
 
 
 class LinearRegression(Regression):

@@ -15,3 +15,6 @@ build
 .zip
 
 release/
+
+### Python ###
+__pycache__
