@@ -2,4 +2,27 @@
 
 \begin{solution}
     \text{(a)}
+
+    \[
+        \begin{align*}
+            \sigma(-a)
+            &= \frac{a}{1 + e^{-(-a)}} & \\
+            &= \frac{a}{1 + e^a} & \\
+            &= 1 - \frac{e^a}{1 + e^a} & \\
+            &= 1 - \frac{1}{e^{-a} + 1} & \text{(Cancel out } e^a \text{ )} \\
+            &= 1 - \sigma(a)
+        \end{align*}
+    \]
+
+    \text{(b)} Let $y = \sigma(a) = \frac{1}{1 + e^{-a}}$.
+    We want to find $a = sigma^{-1}(y)$.
+    \[
+        \begin{align*}
+            1 + e^{-a} &= \frac{1}{y} \\
+            e^{-a} &= \frac{1}{y} - 1 \\
+            -a &= \ln{\left(\frac{1 - y}{y}\right)} \\
+            a &= -\ln{\left(\frac{1 - y}{y}\right)} \\
+            \sigma^{-1}(y) &= \ln{\left(\frac{y}{1 - y}\right)}
+        \end{align*}
+    \]
 \end{solution}
