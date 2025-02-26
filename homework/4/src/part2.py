@@ -22,7 +22,19 @@ X_sc = MinMaxScaler().fit_transform(X)
 X_train, X_test, t_train, t_test = train_test_split(X_sc, t, test_size=0.2)
 
 # part (e)
-lr = LogisticRegression()
+# Reference: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+random_state = 1234  # For reproducibility
+lr = LogisticRegression(
+    # Random state for reproducibility.
+    random_state=random_state,
+    # Inverse of regularization strength; smaller values specify stronger
+    # regularization. C = 1/λ
+    C=0.3,
+    # Maximum number of iterations taken for the solvers to converge; the more
+    # iterations, the more likely it converges when the training stops.
+    max_iter=500,
+    solver="lbfgs",
+)
 lr.fit(X_train, t_train)
 
 # part (f)

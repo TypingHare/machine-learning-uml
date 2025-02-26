@@ -105,7 +105,7 @@ class LogisticRegression(Classifier):
 # noinspection PyPep8Naming
 def test_LogisticRegression():
     # part (h)
-    x_train, t_train = create_synthetic_data()
+    x_train, t_train = create_synthetic_data(True)
 
     # part (i)
     x_min, x_max, y_min, y_max = -5, 15, -5, 15

@@ -1,5 +1,20 @@
 \question Q3\droppoints
 
 \begin{solution}
-    \textbf{(a) to (g): Implemented.}
+    \text{(a) - (d)} Implemented.
+
+    \text{(e)} The \textbf{LogisticRegression} class accepts lots of parameters.
+    I first specified the \textbf{random\_state} for reproducibility.
+    However, after I ran it several times, I found that the results were never consistent.
+    I wonder if they have other random processes under the hood.
+    I then tried to change \textbf{C}, which is the inverse of regularization strength.
+    The documentation claims that the smaller it is the stronger regularization the model would be.
+    So I tried several values that were less than the default value, which is 1.
+    I found that stronger regularization didn't mean a better outcome.
+    I stopped at $C = 0.3$.
+    I also changed the value of \textbf{max\_iter} to 500, hopefully it has a higher chance to
+    converge.
+    Finally, I tested the solvers provided, and found that ``lbfgs\("\), which was the default solver, remained to be the best.
+
+    \text{(f) - (g)} Implemented.
 \end{solution}
