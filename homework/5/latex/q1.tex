@@ -1,0 +1,235 @@
+\question Q1\droppoints
+
+\begin{solution}
+    \text{(a)} Following the instructions, I will maintain two decimal places for intermediate calculations and round the final output vector $\mathbf{y}$ to one decimal place.
+
+    \begin{gather*}
+        \mathbf{a}^{(1)} = W^{(1)}\mathbf{x} =
+        \begin{bmatrix}
+            0.5  & -1   & 1.5 \\
+            -0.5 & -1   & 1   \\
+            1    & -0.5 & 0   \\
+            -2   & 1    & 1   \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1  \\
+            -2 \\
+            -1 \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1   \\
+            0.5 \\
+            2   \\
+            -5  \\
+        \end{bmatrix}\\
+        \mathbf{z}^{(1)}
+        = h(\mathbf{a}^{(1)})
+        \approx
+        \begin{bmatrix}
+            0.76  \\
+            0.46  \\
+            0.96  \\
+            -1.00 \\
+        \end{bmatrix}\\
+    \end{gather*}
+
+    Since the output units have linear application functions, we have:
+
+    \[
+        \mathbf{y} = \mathbf{a}^{(2)}
+        = W^{(2)}\mathbf{z}^{(1)}
+        =
+        \begin{bmatrix}
+            1   & -2  & -0.5 & 0  \\
+            0.5 & 0.5 & 1    & -1 \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            0.76  \\
+            0.46  \\
+            0.96  \\
+            -1.00 \\
+        \end{bmatrix}
+        \approx
+        \begin{bmatrix}
+            -0.6 \\
+            2.6  \\
+        \end{bmatrix}
+    \]
+
+    \text{(b)} The $\delta_k$ is given by
+
+    \[
+        \begin{align*}
+            \delta_k
+            &= \frac{\partial E_n}{\partial y_k} \\
+            &= \frac{\partial}{\partial y_k}{ \left[ \frac{1}{2}\sum_{k=1}^{K}(y_k - t_k)^2 \right] } \\
+            &= y_k - t_k
+        \end{align*}
+    \]
+
+    Plug in $\mathbf{y} = \begin{bmatrix}
+                              -0.6 & 2.6
+    \end{bmatrix}^\intercal$ and $\mathbf{t} = \begin{bmatrix}
+                                                   -1 & 1
+    \end{bmatrix}^\intercal$, we can find the error term at the output layer:
+
+    \[
+        \bm{\delta}^{(2)} =
+        \mathbf{y} - \mathbf{t} =
+        \begin{bmatrix}
+            -0.6 \\
+            2.6  \\
+        \end{bmatrix}
+        -
+        \begin{bmatrix}
+            -1 \\
+            1  \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            0.4 \\
+            1.6 \\
+        \end{bmatrix}
+    \]
+
+    For the hidden units, we use the chain rule to calculate the error:
+
+    \[
+        \begin{align*}
+            \delta_j
+            = \frac{\partial E_n}{\partial a_j}
+            &= \sum_{k = 1}^{K}{ \frac{\partial E_n}{\partial a_k}\frac{\partial a_k}{\partial a_j} }\\
+            &= \sum_{k = 1}^{K} { (y_k - t_k)w_{kj}\tanh'(a_j) }
+        \end{align*}
+    \]
+
+    We know that the derivative of $\tanh(a)$ is $(1 - \tanh^2(a))$, therefore:
+
+    \[
+        \begin{align*}
+            \delta_j
+            &= [1 - \tanh^2(a_j)] \sum_{k = 1}^{K} { (y_k - t_k)w_{kj} } \\
+            &= [1 - z_j^2] \sum_{k = 1}^{K} { \delta_k w_{kj} }
+        \end{align*}
+    \]
+
+    Since
+
+    \[
+        W^{(2)}^\intercal\bm{\delta}^{(2)}
+        =
+        \begin{bmatrix}
+            1    & 0.5 \\
+            -2   & 0.5 \\
+            -0.5 & 1   \\
+            0    & -1  \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            0.4 \\
+            1.6 \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1.2  \\
+            0    \\
+            1.4  \\
+            -1.6 \\
+        \end{bmatrix}
+    \]
+
+    Finally, we can obtain the error term at the hidden layer:
+
+    \[
+        \bm{\delta}^{(1)} =
+        \begin{bmatrix}
+            1 - 0.76^2    \\
+            1 - 0.46^2    \\
+            1 - 0.96^2    \\
+            1 - (-1.00)^2 \\
+        \end{bmatrix}
+        \circ
+        \begin{bmatrix}
+            1.2  \\
+            0    \\
+            1.4  \\
+            -1.6 \\
+        \end{bmatrix}
+        \approx
+        \begin{bmatrix}
+            0.5 \\
+            0.0 \\
+            0.1 \\
+            0.0 \\
+        \end{bmatrix}
+    \]
+
+    \text{(c)}
+
+    \[
+        \begin{align*}
+            \frac{\partial E_n}{\partial w^{(2)}_{kj}}
+            = \frac{\partial E_n}{\partial a_k} \cdot \frac{\partial a_k}{ \partial w^{(2)}_{kj} }
+            = \delta_k \cdot a_j
+        \end{align*}
+    \]
+
+    Therefore, the gradient at the output layer is:
+
+    \[
+        \begin{align*}
+            \frac{\partial E_n}{\partial w_{kj}}
+            &= \bm{\delta}^{(2)} \otimes \mathbf{z}^{(1)T} \\
+            &=
+            \begin{bmatrix}
+                0.4 \\
+                1.6 \\
+            \end{bmatrix}
+            \otimes
+            \begin{bmatrix}
+                0.76  & 0.46 & 0.96 & -1.00 \\
+            \end{bmatrix} \\
+            &\approx
+            \begin{bmatrix}
+                0.3 & 0.2 & 0.4 & -0.4 \\
+                1.2 & 0.7 & 1.5 & -1.6 \\
+            \end{bmatrix}
+        \end{align*}
+    \]
+
+    Likewise,
+
+    \[
+        \begin{align*}
+            \frac{\partial E_n}{\partial w^{(1)}_{ji}}
+            = \frac{\partial E_n}{\partial a_j} \cdot \frac{\partial a_j}{ \partial w^{(1)}_{ji} }
+            = \delta_j \cdot x_i
+        \end{align*}
+    \]
+
+    Therefore, the gradient at the hidden layer is:
+
+    \[
+        \frac{\partial E_n}{\partial w_{ji}}
+        = \bm{\delta}^{(1)} \otimes \mathbf{x}^\intercal
+        =
+        \begin{bmatrix}
+            0.5 \\
+            0.0 \\
+            0.1 \\
+            0.0 \\
+        \end{bmatrix}
+        \otimes
+        \begin{bmatrix}
+            1  & -2 & -1\\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            0.5 & -1   & -0.5 \\
+            0.0 & 0.0  & 0.0  \\
+            0.1 & -0.2 & -0.1 \\
+            0.0 & 0.0  & 0.0  \\
+        \end{bmatrix}
+    \]
+
+\end{solution}

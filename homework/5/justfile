@@ -1,0 +1,11 @@
+release:
+    mkdir -p release
+    cp latex/build/hw5.pdf release/hw5.pdf
+    cp src/hw5.py release/
+    zip hw5.zip release/*
+    mv hw5.zip ~/Downloads
+    rm -rf release
+    echo "Released hw5.zip (~/Downloads/hw5.zip)."
+
+clean:
+    lmkw clean

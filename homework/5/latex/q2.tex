@@ -1,0 +1,41 @@
+\question Q2\droppoints
+
+\begin{solution}
+    \text{(a) - (g)} Implemented.
+
+    \text{(l)}
+    I used the method of controlling variables when tuning the parameters.
+    This means I changed just one parameter at a time and compared the accuracy rates from testing.
+
+    First, I tried different activation functions - tanh and logistic - and found that the accuracy dropped from $0.988067$ to $0.98568$ and $0.986476$.
+    So I stuck with the default ReLU function since it worked best.
+
+    Next, I played around with hidden layer sizes.
+    Adding a second hidden layer boosted accuracy, but adding a third layer actually made things worse.
+    So two hidden layers seems to be the sweet spot for this dataset.
+
+    I also tried increasing the max iterations and decreasing the threshold (alpha), but these didn't really make much difference.
+    I'm guessing 1000 iterations is already enough for the model to converge.
+
+    Finally, I tested other solvers like ``sgd'' and ``lbfgs'', but both gave worse results than the default (``adam'').
+
+    \textbf{In conclsion, for this specific datasets, I will use the following parameters instead of the default ones:}
+    \begin{itemize}
+        \item $\text{max\_iter}=1000$
+        \item $\text{hidden\_layer\_sizes}=(128, 64)$
+    \end{itemize}
+
+    \text{(i)}
+    I'm honestly not sure how to tackle this question.
+    Neural networks are such a black box, and there's no mathematical proof to determine the perfect parameter combination.
+
+    Since I should probably show some work to get credit, I wrote a program to test all possible neural networks with three hidden layers (see the commented code in part (i) of \textbf{hw5.py}).
+    This helped me find the combination with the best accuracy.
+
+    My results showed that $(54, 55, 58)$ gives a $99.204\%$ accuracy rate.
+    A few other combinations reached the same accuracy, but this one uses the fewest total units.
+
+    Initially, I wanted to brute-force test all combinations from 1 to 256, but that would have taken forever!
+
+    I still don't have great strategies for parameter tuning, but I'm hoping to learn some better approaches in the future!
+\end{solution}

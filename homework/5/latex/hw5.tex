@@ -1,0 +1,37 @@
+\documentclass[12pt, letterpaper, onecolumn]{exam}
+
+% Layout
+\usepackage[letterpaper, margin=1in]{geometry}
+\linespread{1}
+\setlength{\parskip}{0em}
+\setlength{\parindent}{0em}
+
+% Page style (page header and footer)
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Machine Learning Homework 5}
+\fancyhead[R]{James Chen}
+\fancyfoot[C]{\thepage}
+
+% Required for inserting images
+\usepackage{graphicx}
+\usepackage{float}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+
+\begin{document}
+    \pointsdroppedatright
+    \printanswers
+    \renewcommand{\solutiontitle}{}
+
+    \begin{questions}
+        \input{q1}
+        \input{q2}
+    \end{questions}
+\end{document}
