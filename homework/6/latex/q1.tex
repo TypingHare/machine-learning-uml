@@ -1,5 +1,79 @@
 \question Q1\droppoints
 
 \begin{solution}
-    Hello world
+    \text{(a)} The example matrix we discussed in class was
+    \[
+        A =
+        \begin{bmatrix}
+            1 & 2 \\
+            3 & 4 \\
+        \end{bmatrix}
+    \]
+
+    To find the eigenvalues of this matrix, we first find
+
+    \[
+        A - \lambda I =
+        \begin{bmatrix}
+            1 & 2 \\
+            3 & 4 \\
+        \end{bmatrix}
+        -
+        \lambda
+        \begin{bmatrix}
+            1 & 0 \\
+            0 & 1 \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 - \lambda & 2           \\
+            3           & 4 - \lambda \\
+        \end{bmatrix}
+    \]
+
+    Set the determinant of this matrix equal to $0$, we have
+
+    \[
+        \det(A - \lambda I)
+        = (1 - \lambda)(4 - \lambda) - 3 \times 2
+        = \lambda^2 - 5\lambda - 2
+        = 0
+    \]
+
+    We can use quadratic formula to solve this equation:
+
+    \[
+        \lambda
+        = \frac{-(-5) \pm \sqrt{(-5)^2 - 4 \times 1 \times (-2)}}{2 \times 1}
+        = \frac{5 \pm \sqrt{33}}{2}
+    \]
+
+    Finally, we obtain $\lambda_1 = 5.3723$ and $\lambda_2 = -0.3723$.
+
+    \text{(b)} Consider the following matrix:
+
+    \[
+        B =
+        \begin{bmatrix}
+            5 & -2 \\
+            1 & 2  \\
+        \end{bmatrix}
+    \]
+
+    The characteristic equation is given by:
+
+    \[
+        \begin{align*}
+            \det(B - \lambda I)
+            &= (5 - \lambda)(2 - \lambda) - 1 \times (-2) \\
+            &= \lambda^2 - 7\lambda + 12 \\
+            &= (\lambda - 3)(\lambda -4) \\
+            &= 0 \\
+        \end{align*}
+    \]
+
+    We obtain $\lambda_1 = 3$ and $\lambda_2 = 4$.
+    Therefore, the matrix $B$ serves as an example matrix having at least one negative elements but all eigenvalues are positive.
 \end{solution}
+
+\newpage

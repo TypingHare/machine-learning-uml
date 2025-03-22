@@ -1,4 +1,81 @@
 \question Q2\droppoints
 
 \begin{solution}
+    \text{(a)} A $2 \times 2$ Gram matrix $\mathbf{K}$ formed from two vectors $\mathbf{v}_1$ and $\mathbf{v}_2$ has the form:
+
+    \[
+        \mathbf{K} =
+        \begin{bmatrix}
+            \mathbf{v}_1 \cdot \mathbf{v}_1 & \mathbf{v}_1 \cdot \mathbf{v}_2 \\
+            \mathbf{v}_2 \cdot \mathbf{v}_1 & \mathbf{v}_2 \cdot \mathbf{v}_2 \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \| \mathbf{v}_1 \|^2      & \mathbf{v}_1 \mathbf{v}_2 \\
+            \mathbf{v}_2 \mathbf{v}_1 & \| \mathbf{v}_2 \|^2      \\
+        \end{bmatrix}
+    \]
+
+    Therefore, the determinant of $\mathbf{K}$ is:
+
+    \[
+        \det(\mathbf{K}) = \| \mathbf{v}_1 \|^2 + \| \mathbf{v}_2 \|^2 - 2\mathbf{v}_1 \mathbf{v}_2
+    \]
+
+    \text{Before (b)} We will show that if all the eigenvalues of a matrix $M$ are positive, then the determinant of $M$ is positive.
+    The characteristic equation of a matrix $M$ is given by:
+
+    \[
+        \det(M - \lambda I) = 0
+    \]
+
+    Solving this equation yields the eigenvalues of the matrix $M$, which means:
+
+    \[
+        \det(M - \lambda I) = \prod_{i = 1}^{n}(\lambda_i - \lambda)
+    \]
+
+    Let $\lambda = 0$, we have:
+
+    \[
+        \det(M) = \prod_{i = 1}^{n}(\lambda_i) = \lambda_1 \lambda_2 \dots \lambda_n
+    \]
+
+    Since all the eigenvalues of $M$ are positive, we can conclude that:
+
+    \[
+        \det(M) > 0
+    \]
+
+    \text{(b)}
+    Let's define a $2 \times 2$ Gram matrix $\mathbf{K}$ constructed from a positive definite kernel $k(x, x')$, evaluated at two points $x_1$ and $x_2$:
+
+    \[
+        \mathbf{K} =
+        \begin{bmatrix}
+            k(x_1, x_1) & k(x_1, x_2) \\
+            k(x_2, x_1) & k(x_2, x_2) \\
+        \end{bmatrix}
+    \]
+
+    Because the kernel is positive definite, we know that all the eigenvalues of $\mathbf{K}$ is positive, resulting in
+
+    \[
+        \det(\mathbf{K}) = k(x_1, x_1)k(x_2, x_2) - k(x_1, x_2)k(x_2, x_1) > 0
+    \]
+
+    Since $k(x_1, x_2) = k(x_2, x_1)$
+
+    \[
+        k(x_1, x_1)k(x_2, x_2) - k(x_1, x_2)^2 > 0
+    \]
+
+    After simplification, we obtain
+
+    \[
+        k(x_1, x_2)^2 < k(x_1, x_1)k(x_2, x_2)
+    \]
+
 \end{solution}
+
+\newpage
