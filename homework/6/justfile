@@ -2,8 +2,8 @@ release:
     mkdir -p release
     cp latex/build/hw6.pdf release/hw6.pdf
     cp src/hw6.py release/
-    zip hw6.zip release/*
-    mv hw6.zip ~/Downloads
+    cd release && zip hw6.zip ./*
+    mv release/hw6.zip ~/Downloads
     rm -rf release
     echo "Released hw6.zip (~/Downloads/hw6.zip)."
 
