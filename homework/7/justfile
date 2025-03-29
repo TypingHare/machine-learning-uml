@@ -1,0 +1,12 @@
+release:
+    mkdir -p release
+    cp latex/build/hw7.pdf release/hw7.pdf
+    cp src/hw7.py release/
+    cp src/question1.py release/
+    cd release && zip hw7.zip ./*
+    mv release/hw7.zip ~/Downloads
+    rm -rf release
+    echo "Released hw7.zip (~/Downloads/hw7.zip)."
+
+clean:
+    lmkw clean
