@@ -1,0 +1,105 @@
+\section{Kernel Methods}\label{sec:kernel_methods}
+
+\textbf{Hyperparameters} are the settings or configurations set before training begins, such as \textbf{learning rate}, \textbf{batch size}, and \textbf{the number of layers}.
+They control the learning process, but they are not learned by the model from the data.
+\textbf{Adaptive parameters} refer to model parameters or hyperparameters that change during training based on the data or learning dynamics, rather than staying fixed.
+For instance, in optimization algorithms like Adam, adaptive parameters refer to learning rates that adjust during training based on past gradients.
+
+\textbf{Non-parametric methods} (or \textbf{memory-based methods}) are models that do not assume a fixed form or number of parameters for the underlying function or distribution.
+These methods require a metric to measure the similarity of any two vectors in input space known as \textbf{kernel}.
+For models that use a fixed nonlinear feature space mapping $\phi(x)$, the kernel function is given by:
+
+\[
+    k(\bm{x},\bm{x}') = \phi(\bm{x})^\top\phi(\bm{x}')
+\]
+
+We get the \textbf{linear kernel} when $\phi(\bm{x}) = \bm{x}$.
+Every kernel is a symmetric function:
+
+\[
+    k(\bm{x},\bm{x}') = k(\bm{x}',\bm{x})
+\]
+
+\textbf{Stationary kernels} are invariant to translations in input space, for example:
+
+\[
+    k(\bm{x}, \bm{x}') = k(\bm{x} - \bm{x}')
+\]
+
+\textbf{Homogeneous kernels} depend only on the magnitude of the distance between the arguments:
+
+\[
+    k(\bm{x}, \bm{x}') = k(\lVert \bm{x} - \bm{x}' \rVert)
+\]
+
+A matrix $\bm{A}$ is said to be \textbf{positive definite}, denoted by $\bm{A} \succ 0$, if $\bm{w}^\top\bm{A}\bm{w} > 0$ for all non-zero values of $\bm{w}$.
+Equivalently, the eigenvalues of a positive definite matrix are positive.
+A matrix $\bm{A}$ is said to be \textbf{positive semi-definite}, denoted by $\bm{A} \succeq 0$, if $\bm{w}^\top\bm{A}\bm{w} \ge 0$ for all non-zero values of $\bm{w}$.
+
+\subsection{Gaussian Process}\label{subsec:gaussian-process}
+
+A Gaussian Process is a non-parametric probabilistic model over functions.
+Instead of predicting a single function like linear regression does, a GP gives a distribution over many possible functions that fit the data.
+
+In \textbf{Gaussian Process Regression (GPR)}, the goal is to infer a distribution over functions that fit observed data points.
+
+\begin{enumerate}
+    \item {
+        Define the prior over function values using the kernel:
+
+        \[
+            \bm{y} = \mathcal{N}(0, \bm{K})
+        \]
+    }
+    \item {
+        Add Gaussian noise to get the likelihood:
+
+        \[
+            \bm{t} \sim \mathcal{N}(0, \bm{K} + \beta^{-1}\bm{I}_N)
+        \]
+    }
+    \item {
+        Make predictions for a new input $\bm{x}_*$:
+        Compute the posterior using $p(f_* | t)$, which uses the joint distribution:
+
+        \[
+            \begin{bmatrix}
+                \bm{t} \\ f_*
+            \end{bmatrix}
+            \sim
+            \mathcal{N}\left(0, \begin{bmatrix}
+                                    \mathbf{K} + \beta^{-1}\bm{I}_N & \bm{k}_* \\
+                                    \bm{k}_*^\top                   & k_{**}
+            \end{bmatrix}\right)
+        \]
+
+        Where $\bm{K}$ is known as \textbf{Gram matrix}:
+
+        \[
+            \bm{K}_{ij} = k(\bm{x}_i, \bm{y}_j)
+        \]
+
+        The predictive mean and variance can be derived analytically.
+    }
+\end{enumerate}
+
+One common kernel function for GPR is:
+
+\[
+    k(\bm{x}_n, \bm{x}_m) = \theta_0 \exp \left( \frac{\theta_1}{2} \lVert \bm{x}_n - \bm{x}_m \rVert^2 \right) + \theta_2 + \theta_3 \bm{x}_n^{\top}\bm{x}_m
+\]
+
+Suppose we have $\langle \bm{X}_N, \bm{t}_N \rangle$, and we want to predict $t_{N+1}$ for a new input $\bm{x}_{N+1}$.
+We start it by writing down the joint distribution $p(\bm{t}_{N+1})$:
+
+\[
+    p(\bm{t}_{N+1}) = \mathcal{N}(p(\bm{t}_{N+1}) | \bm{0}, \bm{C}_{N+1})
+\]
+
+Where $\bm{C}$ is a covariance matrix with elements given by:
+
+\[
+    C(\bm{x}_n, \bm{x}_m) = k(\bm{x}_n, \bm{x}_m) + \beta^{-1}\delta_{nm}
+\]
+
+The covariance matrix must be \textit{symmetric} and \textit{semi-definite}.
