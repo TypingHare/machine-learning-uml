@@ -1,0 +1,11 @@
+{
+  "sourceDir": "latex",
+  "buildDir": "build",
+  "defaultFile": "hw8.tex",
+  "latexmkCommand": "latexmk",
+  "latexmkOptions": "-pdf",
+  "watchInterval": 1000,
+  "previewer": "Safari",
+  "releaseDir": "release",
+  "removeBuildDirWhenStart": true
+}

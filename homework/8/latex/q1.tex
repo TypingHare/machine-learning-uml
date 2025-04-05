@@ -1,0 +1,96 @@
+%! suppress = GatherEquations
+\question Q1\droppoints
+
+\begin{solution}
+    \text{(a)} We have two cluster centers in $\bm{\mu}_0$, which are: $\bm{\mu}^{(1)}_0 = (-3, 2)$ and $\bm{\mu}^{(2)}_0 = (3, -2)$.
+    We also have six data points, which are $\bm{x}_1 = (2, 5), \bm{x}_2 = (3, 4), \dots ,\text{ and } \bm{x}_6 = (0, 0)$.
+
+    Find the Euclidean norms between $\bm{x}_1$ and the two centers respectively:
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_1 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 - 2)^2 + (2 - 5)^2} = \sqrt{34} \\
+            \lVert \bm{x}_1 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 - 2)^2 + (-2 - 5)^2} = \sqrt{50} \\
+        \end{align*}
+    \]
+
+    Since $\lVert \bm{x}_1 - \bm{\mu}^{(2)}_0 \rVert^2 < \lVert \bm{x}_1 - \bm{\mu}^{(1)}_0 \rVert^2$, we have $r_{11} = 1$ and $r_{12} = 0$.
+    Likewise, we can find the Euclidean norms between data points and the two centers:
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_2 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 - 3)^2 + (2 - 4)^2} = \sqrt{40} \\
+            \lVert \bm{x}_2 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 - 3)^2 + (-2 - 4)^2} = \sqrt{36} \\
+        \end{align*}
+    \]
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_3 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 - 1)^2 + (2 - 6)^2} = \sqrt{32} \\
+            \lVert \bm{x}_3 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 - 1)^2 + (-2 - 6)^2} = \sqrt{68} \\
+        \end{align*}
+    \]
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_4 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 + 3)^2 + (2 + 3)^2} = \sqrt{25} \\
+            \lVert \bm{x}_4 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 + 3)^2 + (-2 + 3)^2} = \sqrt{37} \\
+        \end{align*}
+    \]
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_5 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 + 4)^2 + (2 + 2)^2} = \sqrt{17} \\
+            \lVert \bm{x}_5 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 + 4)^2 + (-2 + 2)^2} = \sqrt{49} \\
+        \end{align*}
+    \]
+
+    \[
+        \begin{align*}
+            \lVert \bm{x}_6 - \bm{\mu}^{(1)}_0 \rVert^2 &= \sqrt{(-3 - 0)^2 + (2 - 0)^2} = \sqrt{13} \\
+            \lVert \bm{x}_6 - \bm{\mu}^{(2)}_0 \rVert^2 &= \sqrt{(3 - 0)^2 + (-2 - 0)^2} = \sqrt{13} \\
+        \end{align*}
+    \]
+
+    And we can obtain the matrix $\bm{r}$:
+    \[
+        \bm{r} =
+        \begin{bmatrix}
+            1 & 0 \\
+            0 & 1 \\
+            1 & 0 \\
+            1 & 0 \\
+            1 & 0 \\
+            1 & 0 \\
+        \end{bmatrix}
+    \]
+
+    \text{(b)} In M-step, we will use the following formula:
+    \[
+        \bm{\mu}_k = \frac{\Sigma_n r_{nk} \bm{x}_n}{\Sigma_n r_{nk}}
+    \]
+
+    Therefore, we can find $\bm{\mu}^{(1)}_1$
+    \[
+        \bm{\mu}^{(1)}_1
+        = \frac{(2, 5) + (1, 6) + (-3, -3) + (-4, -2) + (0, 0)}{1 + 0 + 1 + 1 + 1 + 1}
+        = \left( -0.8, 1.2 \right)
+    \]
+
+    Likewise, we have:
+    \[
+        \bm{\mu}^{(2)}_1
+        = \frac{(3, 4)}{0 + 1 + 0 + 0 + 0 + 0}
+        = (3, 4)
+    \]
+
+    Combine them we obtain:
+
+    \[
+        \bm{\mu}_1 =
+        \begin{bmatrix}
+            -0.8 & 3 \\
+            1.2  & 4 \\
+        \end{bmatrix}
+    \]
+\end{solution}
