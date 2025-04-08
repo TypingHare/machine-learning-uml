@@ -1,0 +1,14 @@
+release:
+    mkdir -p release
+    cp latex/build/hw9.pdf release/hw9.pdf
+    cp src/hw9.py release/
+    cd release && zip hw9.zip ./*
+    mv release/hw9.zip ~/Downloads
+    rm -rf release
+    echo "Released hw9.zip (~/Downloads/hw9.zip)."
+
+clean:
+    lmkw clean
+
+run:
+    python src/hw9.py

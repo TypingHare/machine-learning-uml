@@ -1,8 +1,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Ellipse
+from sklearn.cluster import SpectralClustering, DBSCAN
 from sklearn.datasets import make_blobs, make_circles
 from sklearn.cluster import KMeans
+from sklearn.decomposition import KernelPCA
+from sklearn.metrics import adjusted_rand_score, pairwise_kernels
 from sklearn.mixture import GaussianMixture
 
 RS = 1234
@@ -108,59 +111,109 @@ circle_gm_labels = gm.predict(X_circle)
 
 
 # Part (g)
-def plot_gmm_ellipses(_ax, _gmm, _colors=None, _alpha=0.3):
-    """
-    Plots one ellipse per GMM cluster on a given Axes.
+# def plot_gmm_ellipses(_ax, _gmm, _colors=None, _alpha=0.3):
+#     """
+#     Plots one ellipse per GMM cluster on a given Axes.
+#
+#     Parameters:
+#         _ax: matplotlib Axes object
+#         _gmm: trained sklearn GaussianMixture object
+#         _colors: optional list of colors for each ellipse
+#         _alpha: transparency level of ellipses
+#     """
+#     # The mean is the center coordinate
+#     for i, (mean, covariance) in enumerate(zip(_gmm.means_, _gmm.covariances_)):
+#         # Find the eigenvalues and eigenvectors
+#         vals, vecs = np.linalg.eigh(covariance)
+#
+#         # Sort eigenvalues/vecs from largest to smallest
+#         order = vals.argsort()[::-1]
+#         vals, vecs = vals[order], vecs[:, order]
+#
+#         # Width and height (2*sqrt(2*v) for each axis)
+#         width, height = 2 * np.sqrt(2 * vals)
+#
+#         # Angle in degrees (from the largest eigenvector)
+#         angle = np.degrees(np.arctan2(vecs[1, 0], vecs[0, 0]))
+#
+#         # Choose color
+#         color = _colors[i] if _colors is not None else "black"
+#
+#         # Create and add ellipse
+#         ellipse = Ellipse(
+#             xy=mean,
+#             width=width,
+#             height=height,
+#             angle=angle,
+#             color=color,
+#             alpha=_alpha,
+#         )
+#         _ax.add_patch(ellipse)
+#
+#
+# _, ax = plt.subplots()
+# ax.scatter(
+#     X_circle[:, 0], X_circle[:, 1], c=circle_gm_labels, s=20, cmap="viridis"
+# )
+# ax.scatter(
+#     circle_gm_cluster_centers[:, 0],
+#     circle_gm_cluster_centers[:, 1],
+#     marker="x",
+#     color="black",
+# )
+#
+# # noinspection PyTypeChecker
+# plot_gmm_ellipses(ax, gm)
+#
+# plt.title("GMM with Covariance Ellipses")
+# plt.axis("equal")
+# plt.show()
 
-    Parameters:
-        _ax: matplotlib Axes object
-        _gmm: trained sklearn GaussianMixture object
-        _colors: optional list of colors for each ellipse
-        _alpha: transparency level of ellipses
-    """
-    for i, (mean, covar) in enumerate(zip(_gmm.means_, _gmm.covariances_)):
-        # Eigen decomposition
-        vals, vecs = np.linalg.eigh(covar)
-
-        # Sort eigenvalues/vecs from largest to smallest
-        order = vals.argsort()[::-1]
-        vals, vecs = vals[order], vecs[:, order]
-
-        # Width and height (2*sqrt(2*v) for each axis)
-        width, height = 2 * np.sqrt(2 * vals)
-
-        # Angle in degrees (from the largest eigenvector)
-        angle = np.degrees(np.arctan2(vecs[1, 0], vecs[0, 0]))
-
-        # Choose color
-        color = _colors[i] if _colors is not None else "black"
-
-        # Create and add ellipse
-        ellipse = Ellipse(
-            xy=mean,
-            width=width,
-            height=height,
-            angle=angle,
-            color=color,
-            alpha=_alpha,
-        )
-        _ax.add_patch(ellipse)
+# Part (h)
+# Reference: https://scikit-learn.org/stable/modules/clustering.html#rand-index
+D_blob_kmeans = adjusted_rand_score(t_blob, blob_labels)
+D_blob_gm = adjusted_rand_score(t_blob, blob_gm_labels)
+D_circle_kmeans = adjusted_rand_score(t_circle, circle_labels)
+D_circle_gm = adjusted_rand_score(t_circle, circle_gm_labels)
+print("\nPart (h)")
+print(f"D_blob (Kmeans): {D_blob_kmeans:.4f}")
+print(f"D_blob (gmm): {D_blob_gm:.4f}")
+print(f"D_circle (Kmeans): {D_circle_kmeans:.4f}")
+print(f"D_circle (gmm): {D_circle_gm:.4f}")
 
 
-_, ax = plt.subplots()
-ax.scatter(
-    X_circle[:, 0], X_circle[:, 1], c=circle_gm_labels, s=20, cmap="viridis"
-)
-ax.scatter(
-    circle_gm_cluster_centers[:, 0],
-    circle_gm_cluster_centers[:, 1],
-    marker="x",
-    color="black",
-)
+# Part (i)
+def train_gmm_with_random_params(random_state: int):
+    gmm = GaussianMixture(
+        n_components=3,
+        init_params="random",
+        random_state=random_state,
+    )
 
-# Plot GMM ellipses
-plot_gmm_ellipses(ax, gm)
+    gmm.fit(X_circle)
+    return adjusted_rand_score(t_circle, gmm.predict(X_circle))
 
-plt.title("GMM with Covariance Ellipses")
-plt.axis("equal")
+
+print("\nPart (i)")
+scores = []
+for i in range(5):
+    score = train_gmm_with_random_params(RS * (i + 1))
+    scores.append(score)
+    print(f"[{i}]: {score:.4f}")
+print(f"Average score: {np.mean(scores):.4f}")
+
+# Part (j)
+# Reference: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
+dbscan = DBSCAN(eps=0.2)
+dbscan_labels = dbscan.fit_predict(X_circle)
+
+_, axes = plt.subplots(1, 2, figsize=(15, 4))
+axes[0].scatter(X_circle[:, 0], X_circle[:, 1], c=t_circle, cmap="viridis")
+axes[0].set_title("Ground Truth Labels")
+
+axes[1].scatter(X_circle[:, 0], X_circle[:, 1], c=dbscan_labels, cmap="viridis")
+axes[1].set_title("DBSCAN Clustering")
+axes[1].legend()
+
+plt.tight_layout()
 plt.show()

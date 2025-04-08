@@ -2,7 +2,6 @@ release:
     mkdir -p release
     cp latex/build/hw8.pdf release/hw8.pdf
     cp src/hw8.py release/
-    cp src/question1.py release/
     cd release && zip hw8.zip ./*
     mv release/hw8.zip ~/Downloads
     rm -rf release
@@ -10,3 +9,6 @@ release:
 
 clean:
     lmkw clean
+
+run:
+    python src/hw8.py
